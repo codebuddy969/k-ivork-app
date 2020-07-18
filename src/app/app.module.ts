@@ -3,6 +3,8 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {SharedModule} from '@app/shared/shared.module';
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
     declarations: [
@@ -10,7 +12,9 @@ import {SharedModule} from '@app/shared/shared.module';
     ],
     imports: [
         BrowserModule,
-        SharedModule
+        SharedModule,
+        FormsModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]

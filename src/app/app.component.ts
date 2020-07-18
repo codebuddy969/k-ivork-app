@@ -1,23 +1,29 @@
-import {Component, OnInit} from '@angular/core';
-import {SessionService} from '@app/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {SessionService, BaseProvider} from '@app/core';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
+    providers: [BaseProvider]
 })
 export class AppComponent implements OnInit {
+
+    @ViewChild('self') private readonly self: NgForm;
 
     name = '';
     cells = 0;
     terminals = [];
     selected = 'terminal-default';
     options = ['File', 'Edit', 'View', 'Search', 'Terminal', 'Help'];
+    model = {command: ''};
 
-    constructor(private sessionService: SessionService
+    constructor(
+        private sessionService: SessionService,
+        private baseProvider: BaseProvider
     ) {
         this.sessionService.createDefaultSession(this.terminals[0]);
-        this.sessionService.storeCommand('hello');
     }
 
     ngOnInit() {
@@ -38,5 +44,14 @@ export class AppComponent implements OnInit {
             this.terminals.push(`terminal-${identifier}`);
             this.cells = Math.ceil((this.terminals.length) / 2);
         }
+    }
+
+    onSubmit(id: string) {
+        this.sessionService.storeCommand(id, this.model.command);
+        console.log(this.self);
+        this.baseProvider.Request('GET', 'http://localhost:4200/assets/data.json').then(response => {
+            console.log(response);
+        });
+        this.self.reset();
     }
 }

@@ -1,0 +1,31 @@
+[{
+    "id": 1,
+    "name": "Home",
+    "routerLink": "/home-comp"
+  },
+  {
+    "id": 2,
+    "name": "&Uuml;ber uns",
+    "routerLink": "/about-us-comp"
+  },
+  {
+    "id": 3,
+    "name": "Events",
+    "routerLink": "/events-comp"
+  },
+  {
+    "id": 4,
+    "name": "Galerie",
+    "routerLink": "/galery-comp"
+  },
+  {
+    "id": 5,
+    "name": "Sponsoren",
+    "routerLink": "/sponsoring-comp"
+  },
+  {
+    "id": 6,
+    "name": "Kontakt",
+    "routerLink": "/contact-comp"
+  }
+]

@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 
 @Injectable({
@@ -22,11 +22,11 @@ export class SessionService {
         sessionStorage.setItem(id, JSON.stringify(['apt-command']));
     }
 
-    storeCommand(command: string): void {
+    storeCommand(id: string, command: string): void {
         if (window.sessionStorage) {
-            const data = JSON.parse(sessionStorage.getItem('terminal-default'));
+            const data = JSON.parse(sessionStorage.getItem(id));
             data.push(command);
-            sessionStorage.setItem('terminal-default', JSON.stringify(data));
+            sessionStorage.setItem(id, JSON.stringify(data));
         }
     }
 
