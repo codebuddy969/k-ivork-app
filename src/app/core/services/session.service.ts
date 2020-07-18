@@ -12,17 +12,17 @@ export class SessionService {
         this.window = this.document.defaultView;
     }
 
-    createDefaultSession(id: string): void {
+    createDefaultSession(): void {
         if (window.sessionStorage && !sessionStorage.length) {
             sessionStorage.setItem('terminal-default', JSON.stringify(['apt-command']));
         }
     }
 
     createSession(id: string): void {
-        sessionStorage.setItem(id, JSON.stringify(['apt-command']));
+        sessionStorage.setItem(id, JSON.stringify(['initial-command']));
     }
 
-    storeCommand(id: string, command: string): void {
+    store(id: string, command: string): void {
         if (window.sessionStorage) {
             const data = JSON.parse(sessionStorage.getItem(id));
             data.push(command);
@@ -39,12 +39,6 @@ export class SessionService {
     delete(key: string): void {
         if (window.sessionStorage) {
             sessionStorage.removeItem(key);
-        }
-    }
-
-    clear(): void {
-        if (window.sessionStorage) {
-            sessionStorage.clear();
         }
     }
 }

@@ -1,27 +1,39 @@
 <nav>
-    <ul appClickOutside (clickOutside)="name = ''">
+    <ul class="menu" appClickOutside (clickOutside)="name = ''">
         <li *ngFor="let option of options" (click)="name = option">
             {{option}}
-            <app-dropdown *ngIf="name == option" [name]="name" (action)="setTerminal($event)"></app-dropdown>
+            <app-dropdown *ngIf="name == option" [name]="name" (action)="callOperation($event)"></app-dropdown>
         </li>
     </ul>
 </nav>
 <div class="container">
     <div class="terminal"
-         (click)="selected = terminal"
+         (click)="selected = terminal; serverData = []"
          *ngFor="let terminal of terminals; let i = index"
          [style.width.%]="this.terminals.length % 2 !== 0 ? (100 / cells) : 100 / (this.terminals.length / 2)"
          [style.height.%]="this.terminals.length <= 2 ? 100 : 50"
          [style.max-width.%]="this.terminals.length === 2 ? 50 : 100"
          [class.extra]="i === (terminals.length - 1) && this.terminals.length % 2 !== 0">
-        <h1>{{terminal}}-{{i + 1}} <span>:</span><span>~</span><span>$</span></h1>
-        <form (ngSubmit)="onSubmit(terminal)" #self="ngForm" *ngIf="selected === terminal">
-            <input type="text"
-                   name="command"
-                   [id]="terminal"
-                   #name="ngModel"
-                   [(ngModel)]="model.command"
-                   appFocus>
-        </form>
+        <div class="form-group">
+            <h1>
+                <button *ngIf="i" title="remove Terminal" (click)="removeTerminal(terminal)">-</button>
+                {{terminal}}-{{i + 1}}
+                <span>:</span><span>~</span><span>$</span>
+            </h1>
+            <form *ngIf="selected === terminal"
+                  (ngSubmit)="onSubmit(terminal)"
+                  #self="ngForm">
+                <input type="text"
+                       name="command"
+                       [id]="terminal"
+                       #name="ngModel"
+                       autocomplete="off"
+                       [(ngModel)]="model.command"
+                       appFocus>
+            </form>
+        </div>
+        <ul class="response" *ngIf="selected === terminal">
+            <li *ngFor="let data of serverData">User with ID {{data?.userId}} published such title: {{data?.title}}</li>
+        </ul>
     </div>
 </div>

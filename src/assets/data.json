@@ -1,31 +1,17 @@
 [{
     "id": 1,
-    "name": "Home",
-    "routerLink": "/home-comp"
+    "name": "Home"
   },
   {
     "id": 2,
-    "name": "&Uuml;ber uns",
-    "routerLink": "/about-us-comp"
+    "name": "Sky"
   },
   {
     "id": 3,
-    "name": "Events",
-    "routerLink": "/events-comp"
+    "name": "Heavy Metal"
   },
   {
     "id": 4,
-    "name": "Galerie",
-    "routerLink": "/galery-comp"
-  },
-  {
-    "id": 5,
-    "name": "Sponsoren",
-    "routerLink": "/sponsoring-comp"
-  },
-  {
-    "id": 6,
-    "name": "Kontakt",
-    "routerLink": "/contact-comp"
+    "name": "Something Else"
   }
 ]

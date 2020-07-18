@@ -1,8 +1,8 @@
 import {Component, Input, Output, EventEmitter, OnChanges} from '@angular/core';
 
 enum Actions {
-    'New Terminal' = 'new-terminal',
-    'Remove Terminal' = 'remove-terminal',
+    'New Terminal' = 'addTerminal',
+    'Remove Terminal' = 'removeTerminal',
 }
 
 

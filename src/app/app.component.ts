@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
     name = '';
     cells = 0;
     terminals = [];
+    serverData = [];
     selected = 'terminal-default';
     options = ['File', 'Edit', 'View', 'Search', 'Terminal', 'Help'];
     model = {command: ''};
@@ -23,21 +24,23 @@ export class AppComponent implements OnInit {
         private sessionService: SessionService,
         private baseProvider: BaseProvider
     ) {
-        this.sessionService.createDefaultSession(this.terminals[0]);
-    }
-
-    ngOnInit() {
-        for (let i = 0; i < sessionStorage.length; i++){
-            this.terminals.push(sessionStorage.key(i));
-        }
-        this.cells = Math.ceil((this.terminals.length) / 2);
+        this.sessionService.createDefaultSession();
     }
 
     get getIdentifier() {
         return Math.floor(new Date().getTime() + Math.random()).toString(36);
     }
 
-    setTerminal(name) {
+    ngOnInit() {
+        this.syncronizeTerminals();
+        this.cells = Math.ceil((this.terminals.length) / 2);
+    }
+
+    callOperation(name) {
+        this[name]();
+    }
+
+    addTerminal() {
         if (this.terminals.length <= 5) {
             const identifier = this.getIdentifier;
             this.sessionService.createSession(`terminal-${identifier}`);
@@ -46,12 +49,28 @@ export class AppComponent implements OnInit {
         }
     }
 
+    removeTerminal(id?: string) {
+        this.sessionService.delete(id);
+        this.syncronizeTerminals();
+        console.log(id);
+    }
+
+    syncronizeTerminals() {
+        this.terminals = [];
+        for (let i = 0; i < sessionStorage.length; i++) {
+            this.terminals.push(sessionStorage.key(i));
+        }
+    }
+
     onSubmit(id: string) {
-        this.sessionService.storeCommand(id, this.model.command);
-        console.log(this.self);
-        this.baseProvider.Request('GET', 'http://localhost:4200/assets/data.json').then(response => {
-            console.log(response);
-        });
-        this.self.reset();
+        this.sessionService.store(id, this.model.command);
+        this.baseProvider.Request('GET', `https://jsonplaceholder.typicode.com/posts?userId=${this.model.command}`)
+            .then(response => {
+                this.serverData = response;
+                this.self.reset();
+            })
+            .catch((e) => {
+                console.log(e); // "Bad, bad, bad!"
+            });
     }
 }
