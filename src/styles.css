@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    padding: 0;
+    color: #ecebeb;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: normal;
+    list-style: none;
+    line-height: 22px;
+    text-decoration: none;
+    box-sizing: border-box;
+    word-break: break-word;
+    font-family: "Arial", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+    color: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    font-weight: inherit;
+}

@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "k-ivor-k-app"
+    }
+  },
+  "defaultProject": "k-ivor-k-app",
+  "cli": {
+    "analytics": "1c8affc0-1e43-4441-8398-d7b8a4d8df51"
+  }
 }
