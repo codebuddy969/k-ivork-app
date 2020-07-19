@@ -48,7 +48,8 @@
     max-height: calc(100% - 22px);
 }
 
-.response li {
+.response li,
+.response div {
     color: inherit;
     font-size: inherit;
 }

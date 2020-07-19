@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     modal = '';
     terminals = [];
     serverData: any;
-    selected = 'terminal-initial';
+    selected = '';
     options = ['File', 'Edit', 'View', 'Search', 'Terminal', 'Help'];
 
     constructor(
@@ -28,31 +28,40 @@ export class AppComponent implements OnInit {
         this.sessionService.createDefaultSession();
     }
 
-    get getIdentifier() {
+    get getIdentifier(): string {
         return Math.floor(new Date().getTime() + Math.random()).toString(36);
     }
 
     ngOnInit() {
         this.syncronizeTerminals();
+        this.selected = this.terminals[0].name;
     }
 
-    callOperation(name) {
+    /**
+     * Since (1.0)
+     * EventEmitter after navbar option select will call selected method from this class using 'callOperation'
+     */
+    callOperation(name): void {
         this[name]();
     }
 
-    addTerminal() {
+    addTerminal(): void {
         if (this.terminals.length <= 5) {
             this.sessionService.createSession(`terminal-${this.getIdentifier}`);
             this.syncronizeTerminals();
         }
     }
 
-    removeTerminal(id?: string) {
+    removeTerminal(id?: string): void {
         this.sessionService.delete(id);
         this.syncronizeTerminals();
     }
 
-    syncronizeTerminals() {
+    /**
+     * Since (1.0)
+     * Common method that syncronizes terminal array with sessionStorage data
+     */
+    syncronizeTerminals(): void {
         this.terminals = [];
         for (let i = 0; i < sessionStorage.length; i++) {
             if (sessionStorage.key(i).startsWith('terminal')) {
@@ -65,7 +74,8 @@ export class AppComponent implements OnInit {
         this.cells = Math.ceil((this.terminals.length) / 2);
     }
 
-    onSubmit(id: string) {
+    onSubmit(id: string): void {
+
         const fieldValue = this.field.nativeElement.value;
         const commands = fieldValue.replace(/ /g, '').split('&')
 

@@ -30,6 +30,7 @@
                        type="text"
                        name="command"
                        [id]="terminal.name"
+                       [disabled]="modal === terminal.name"
                        placeholder="'posts', 'comments' or 'todos'. Chained 'posts&todos'"
                        autocomplete="off"
                        appFocus>

@@ -5,7 +5,6 @@ enum Actions {
     'Remove Terminal' = 'removeTerminal',
 }
 
-
 @Component({
     selector: 'app-dropdown',
     templateUrl: './dropdown.component.html',
