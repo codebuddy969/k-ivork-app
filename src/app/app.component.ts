@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {SessionService, BaseProvider} from '@app/core';
+import {SessionService, BaseProvider, IServerData} from '@app/core';
 
 @Component({
     selector: 'app-root',
@@ -14,8 +14,9 @@ export class AppComponent implements OnInit {
 
     name = '';
     cells = 0;
+    modal = '';
     terminals = [];
-    serverData = [];
+    serverData: any;
     selected = 'terminal-default';
     options = ['File', 'Edit', 'View', 'Search', 'Terminal', 'Help'];
     model = {command: ''};
@@ -33,7 +34,6 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.syncronizeTerminals();
-        this.cells = Math.ceil((this.terminals.length) / 2);
     }
 
     callOperation(name) {
@@ -44,15 +44,13 @@ export class AppComponent implements OnInit {
         if (this.terminals.length <= 5) {
             const identifier = this.getIdentifier;
             this.sessionService.createSession(`terminal-${identifier}`);
-            this.terminals.push(`terminal-${identifier}`);
-            this.cells = Math.ceil((this.terminals.length) / 2);
+            this.syncronizeTerminals();
         }
     }
 
     removeTerminal(id?: string) {
         this.sessionService.delete(id);
         this.syncronizeTerminals();
-        console.log(id);
     }
 
     syncronizeTerminals() {
@@ -60,13 +58,14 @@ export class AppComponent implements OnInit {
         for (let i = 0; i < sessionStorage.length; i++) {
             this.terminals.push(sessionStorage.key(i));
         }
+        this.cells = Math.ceil((this.terminals.length) / 2);
     }
 
     onSubmit(id: string) {
         this.sessionService.store(id, this.model.command);
         this.baseProvider.Request('GET', `https://jsonplaceholder.typicode.com/posts?userId=${this.model.command}`)
             .then(response => {
-                this.serverData = response;
+                this.serverData = response as any;
                 this.self.reset();
             })
             .catch((e) => {

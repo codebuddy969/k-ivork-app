@@ -16,7 +16,8 @@
          [class.extra]="i === (terminals.length - 1) && this.terminals.length % 2 !== 0">
         <div class="form-group">
             <h1>
-                <button *ngIf="i" title="remove Terminal" (click)="removeTerminal(terminal)">-</button>
+                <button *ngIf="i" title="Remove terminal" (click)="removeTerminal(terminal)">-</button>
+                <button title="Style terminal" (click)="modal = terminal">+</button>
                 {{terminal}}-{{i + 1}}
                 <span>:</span><span>~</span><span>$</span>
             </h1>
@@ -35,5 +36,6 @@
         <ul class="response" *ngIf="selected === terminal">
             <li *ngFor="let data of serverData">User with ID {{data?.userId}} published such title: {{data?.title}}</li>
         </ul>
+        <app-styles-modal *ngIf="modal === terminal" (action)="modal = ''"></app-styles-modal>
     </div>
 </div>

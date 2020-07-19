@@ -1,0 +1,22 @@
+<div class="modal">
+    <button class="close" (click)="action.emit()">+</button>
+    <div class="modal-group">
+        <label for="background">Background</label>
+        <input type="color" id="background" value="#e66465">
+    </div>
+    <div class="modal-group">
+        <label for="color">Text color</label>
+        <input type="color" id="color" value="#e66465">
+    </div>
+    <div class="modal-group">
+        <label for="size">Font size</label>
+        <input type="range" min="10" max="20" value="16" id="size">
+    </div>
+    <div class="modal-group">
+        <label for="cursor">Cursor type</label>
+        <select id="cursor">
+            <option value="crosshair">Crosshair</option>
+            <option value="normal">Normal</option>
+        </select>
+    </div>
+</div>
