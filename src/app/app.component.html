@@ -36,6 +36,9 @@
         <ul class="response" *ngIf="selected === terminal">
             <li *ngFor="let data of serverData">User with ID {{data?.userId}} published such title: {{data?.title}}</li>
         </ul>
-        <app-styles-modal *ngIf="modal === terminal" (action)="modal = ''"></app-styles-modal>
+        <app-styles-modal *ngIf="modal === terminal"
+                          [name]="terminal"
+                          (action)="modal = ''"
+                          (config)="updateTerminalStyles($event)"></app-styles-modal>
     </div>
 </div>

@@ -19,7 +19,26 @@ export class SessionService {
     }
 
     createSession(id: string): void {
-        sessionStorage.setItem(id, JSON.stringify(['initial-command']));
+        if (window.sessionStorage) {
+            sessionStorage.setItem(id, JSON.stringify(['initial-command']));
+        }
+    }
+
+    createTheme(id: string): void {
+        const condition = sessionStorage.getItem(`theme-${id}`);
+        if (window.sessionStorage && !condition) {
+            sessionStorage.setItem(`theme-${id}`, JSON.stringify({}));
+        }
+    }
+
+    updateTheme(id: string, config: any): void {
+        sessionStorage.setItem(`theme-${id}`, JSON.stringify(config));
+    }
+
+    readTheme(id: string) {
+        if (window.sessionStorage) {
+            return JSON.parse(sessionStorage.getItem(`theme-${id}`));
+        }
     }
 
     store(id: string, command: string): void {
@@ -39,6 +58,7 @@ export class SessionService {
     delete(key: string): void {
         if (window.sessionStorage) {
             sessionStorage.removeItem(key);
+            sessionStorage.removeItem(`theme-${key}`);
         }
     }
 }
