@@ -1,5 +1,6 @@
 export interface IServerData {
     id: string;
-    name: string;
-    address: string;
+    userId: string;
+    title: string;
+    body: string;
 }

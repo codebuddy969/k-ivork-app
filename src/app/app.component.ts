@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {SessionService, BaseProvider, IServerData, IStyles} from '@app/core';
 
@@ -11,17 +11,15 @@ import {SessionService, BaseProvider, IServerData, IStyles} from '@app/core';
 export class AppComponent implements OnInit {
 
     @ViewChild('self') private readonly self: NgForm;
+    @ViewChild('field') field: ElementRef;
 
     name = '';
     cells = 0;
     modal = '';
-    styles = [];
     terminals = [];
-    theme: IStyles;
     serverData: any;
-    selected = 'terminal-default';
+    selected = 'terminal-initial';
     options = ['File', 'Edit', 'View', 'Search', 'Terminal', 'Help'];
-    model = {command: ''};
 
     constructor(
         private sessionService: SessionService,
@@ -55,35 +53,34 @@ export class AppComponent implements OnInit {
     }
 
     syncronizeTerminals() {
-        this.styles = [];
         this.terminals = [];
         for (let i = 0; i < sessionStorage.length; i++) {
             if (sessionStorage.key(i).startsWith('terminal')) {
-                this.terminals.push(sessionStorage.key(i));
-            }
-            if (sessionStorage.key(i).startsWith('theme')) {
-                this.styles.push(
-                    {[sessionStorage.key(i).slice(6)]: JSON.parse(sessionStorage.getItem(sessionStorage.key(i)))}
-                );
+                this.terminals.push({
+                    name: sessionStorage.key(i),
+                    styles: this.sessionService.read(`theme-${sessionStorage.key(i)}`)
+                });
             }
         }
-        console.log(this.styles);
         this.cells = Math.ceil((this.terminals.length) / 2);
     }
 
-    updateTerminalStyles(event: IStyles) {
-        console.log('Config', event);
-    }
-
     onSubmit(id: string) {
-        this.sessionService.store(id, this.model.command);
-        this.baseProvider.Request('GET', `https://jsonplaceholder.typicode.com/posts?userId=${this.model.command}`)
-            .then(response => {
-                this.serverData = response as any;
-                this.self.reset();
-            })
-            .catch((e) => {
-                console.log(e); // "Bad, bad, bad!"
-            });
+        const fieldValue = this.field.nativeElement.value;
+        const commands = fieldValue.replace(/ /g, '').split('&')
+
+        this.sessionService.store(id, fieldValue);
+        this.serverData = [];
+
+        commands.map(command => {
+            this.baseProvider.Request('GET', `https://jsonplaceholder.typicode.com/${command}`)
+                .then(response => {
+                    this.serverData.push(response);
+                    this.self.reset();
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        });
     }
 }

@@ -8,37 +8,46 @@
 </nav>
 <div class="container">
     <div class="terminal"
-         (click)="selected = terminal; serverData = []"
+         (click)="selected !== terminal.name ? serverData = [] : false; selected = terminal.name"
          *ngFor="let terminal of terminals; let i = index"
+         [ngStyle]="terminal.styles"
+         [style.fontSize.px]="terminal.styles.size"
          [style.width.%]="this.terminals.length % 2 !== 0 ? (100 / cells) : 100 / (this.terminals.length / 2)"
          [style.height.%]="this.terminals.length <= 2 ? 100 : 50"
          [style.max-width.%]="this.terminals.length === 2 ? 50 : 100"
          [class.extra]="i === (terminals.length - 1) && this.terminals.length % 2 !== 0">
         <div class="form-group">
             <h1>
-                <button *ngIf="i" title="Remove terminal" (click)="removeTerminal(terminal)">-</button>
-                <button title="Style terminal" (click)="modal = terminal">+</button>
-                {{terminal}}-{{i + 1}}
+                <button *ngIf="i" title="Remove terminal" (click)="removeTerminal(terminal.name)">-</button>
+                <button title="Style terminal" (click)="modal = terminal.name">+</button>
+                {{terminal.name}}-{{i + 1}}
                 <span>:</span><span>~</span><span>$</span>
             </h1>
-            <form *ngIf="selected === terminal"
-                  (ngSubmit)="onSubmit(terminal)"
+            <form *ngIf="selected === terminal.name"
+                  (ngSubmit)="onSubmit(terminal.name)"
                   #self="ngForm">
-                <input type="text"
+                <input #field
+                       type="text"
                        name="command"
-                       [id]="terminal"
-                       #name="ngModel"
+                       [id]="terminal.name"
+                       placeholder="'posts', 'comments' or 'todos'. Chained 'posts&todos'"
                        autocomplete="off"
-                       [(ngModel)]="model.command"
                        appFocus>
             </form>
         </div>
-        <ul class="response" *ngIf="selected === terminal">
-            <li *ngFor="let data of serverData">User with ID {{data?.userId}} published such title: {{data?.title}}</li>
+        <ul class="response" *ngIf="selected === terminal.name">
+            <li *ngFor="let data of serverData">
+                <div *ngFor="let row of data">
+                    User with ID of {{row?.userId || row?.id}}
+                    {{row?.email ? 'and email: "' + row.email + '"': ''}}
+                    {{row?.body ? 'published such comment: "' + row.body + '"': ''}}
+                    {{row?.title ? 'published such title: "' + row.title + '"': ''}}
+                </div>
+            </li>
         </ul>
-        <app-styles-modal *ngIf="modal === terminal"
-                          [name]="terminal"
+        <app-styles-modal *ngIf="modal === terminal.name"
+                          [name]="terminal.name"
                           (action)="modal = ''"
-                          (config)="updateTerminalStyles($event)"></app-styles-modal>
+                          (config)="terminal.styles = $event;"></app-styles-modal>
     </div>
 </div>

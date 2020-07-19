@@ -34,17 +34,37 @@
 }
 
 .form-group {
+    color: inherit;
+    font-size: inherit;
     display: flex;
     align-items: center;
 }
 
 .response {
+    color: inherit;
+    overflow: auto;
     padding-top: 10px;
+    font-size: inherit;
+    max-height: calc(100% - 22px);
+}
+
+.response li {
+    color: inherit;
+    font-size: inherit;
+}
+
+form {
+    width: 100%;
 }
 
 nav {
     display: flex;
     background-color: #32312E;
+}
+
+form {
+    color: inherit;
+    font-size: inherit;
 }
 
 button {
@@ -79,5 +99,7 @@ h1 span:nth-child(2) {
 input {
     top: 60px;
     width: 100%;
+    color: inherit;
+    font-size: inherit;
     background-color: transparent;
 }

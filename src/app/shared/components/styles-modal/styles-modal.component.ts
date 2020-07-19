@@ -16,14 +16,14 @@ export class StylesModalComponent implements OnInit {
         background: '#e66465',
         color: '#e66465',
         size: 16,
-        cursor: 'normal'
+        cursor: 'auto'
     };
 
     constructor(private sessionService: SessionService) {
     }
 
     ngOnInit(): void {
-        this.sessionService.createTheme(this.name);
+        this.model = this.sessionService.read(`theme-${this.name}`) as any;
     }
 
     updateTheme() {

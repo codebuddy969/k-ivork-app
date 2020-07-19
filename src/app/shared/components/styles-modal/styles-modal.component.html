@@ -19,12 +19,12 @@
                [(ngModel)]="model.color">
     </div>
     <div class="modal-group">
-        <label for="size">Font size</label>
+        <label for="fontSize">Font size</label>
         <input min="10"
                max="20"
                type="range"
-               id="size"
-               name="size"
+               id="fontSize"
+               name="fontSize"
                #name="ngModel"
                (ngModelChange)="model.size = $event; updateTheme()"
                [(ngModel)]="model.size">
@@ -36,8 +36,10 @@
                 #name="ngModel"
                 (ngModelChange)="model.cursor = $event; updateTheme()"
                 [(ngModel)]="model.cursor">
+            <option value="auto" selected>Auto</option>
             <option value="crosshair">Crosshair</option>
-            <option value="normal">Normal</option>
+            <option value="grab">Grab</option>
+            <option value="none">None</option>
         </select>
     </div>
 </div>

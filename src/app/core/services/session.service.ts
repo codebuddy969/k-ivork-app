@@ -14,31 +14,20 @@ export class SessionService {
 
     createDefaultSession(): void {
         if (window.sessionStorage && !sessionStorage.length) {
-            sessionStorage.setItem('terminal-default', JSON.stringify(['apt-command']));
+            sessionStorage.setItem('terminal-initial', JSON.stringify(['apt-command']));
+            sessionStorage.setItem(`theme-terminal-initial`, JSON.stringify({}));
         }
     }
 
     createSession(id: string): void {
         if (window.sessionStorage) {
             sessionStorage.setItem(id, JSON.stringify(['initial-command']));
-        }
-    }
-
-    createTheme(id: string): void {
-        const condition = sessionStorage.getItem(`theme-${id}`);
-        if (window.sessionStorage && !condition) {
             sessionStorage.setItem(`theme-${id}`, JSON.stringify({}));
         }
     }
 
     updateTheme(id: string, config: any): void {
         sessionStorage.setItem(`theme-${id}`, JSON.stringify(config));
-    }
-
-    readTheme(id: string) {
-        if (window.sessionStorage) {
-            return JSON.parse(sessionStorage.getItem(`theme-${id}`));
-        }
     }
 
     store(id: string, command: string): void {
